@@ -1,5 +1,4 @@
 <div align="center">
-<br />
 
 # Transactions Management Dashboard
 
