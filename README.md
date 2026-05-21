@@ -2,11 +2,10 @@
 
 # Transactions Management Dashboard
 
-Next.js + TypeScript take-home for Cleeng: review payment history, download invoices, and retry failed charges in bulk.
+<img width="1512" height="861" alt="image" src="https://github.com/user-attachments/assets/9b7466af-e0dd-4882-9179-8e089966f378" />
 <br />
 
-<img width="1512" height="861" alt="image" src="https://github.com/user-attachments/assets/9b7466af-e0dd-4882-9179-8e089966f378" />
-
+Next.js + TypeScript take-home for Cleeng: review payment history, download invoices, and retry failed charges in bulk.
 <br />
 
 [![Node](https://img.shields.io/badge/node-%3E%3D20.18-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](./.nvmrc)
@@ -15,13 +14,11 @@ Next.js + TypeScript take-home for Cleeng: review payment history, download invo
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](./tsconfig.json)
 [![Vitest](https://img.shields.io/badge/Vitest-46_tests-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](./src)
 [![Playwright](https://img.shields.io/badge/Playwright-E2E-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)](./e2e)
-
 <br />
 
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![MSW](https://img.shields.io/badge/MSW-mocked_API-FF6C37?style=flat-square)](./src/test/msw)
 [![App Router](https://img.shields.io/badge/App_Router-RSC-000000?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org/docs/app)
-
 </div>
 
 ---
