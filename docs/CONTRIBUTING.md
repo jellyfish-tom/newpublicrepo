@@ -53,6 +53,7 @@ The full list lives in [AGENTS.md](./AGENTS.md). The highlights:
 
 - New behavior ships with a Vitest test.
 - Tests that hit `/api/transactions/*` use `mswServer.use(...)`, not `vi.mock("@/lib/api")`.
+- API boundary tests live in `transactions.schema.test.ts`, `transactions.client.test.ts`, and `api-error.test.ts` — assert `ApiError` codes/messages, not unchecked throws.
 - One axe assertion per feature at a meaningful state.
 - Mutations to module-level caches (e.g. `Intl.NumberFormat` cache in `format.ts`) expose a `__resetFormattersForTest`-style hook called from `vitest.setup.ts`.
 

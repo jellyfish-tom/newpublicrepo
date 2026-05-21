@@ -13,7 +13,7 @@ Next.js + TypeScript take-home for Cleeng: review payment history, download invo
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](./tsconfig.json)
-[![Vitest](https://img.shields.io/badge/Vitest-28_tests-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](./src)
+[![Vitest](https://img.shields.io/badge/Vitest-46_tests-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](./src)
 [![Playwright](https://img.shields.io/badge/Playwright-E2E-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)](./e2e)
 
 <br />
@@ -21,7 +21,6 @@ Next.js + TypeScript take-home for Cleeng: review payment history, download invo
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![MSW](https://img.shields.io/badge/MSW-mocked_API-FF6C37?style=flat-square)](./src/test/msw)
 [![App Router](https://img.shields.io/badge/App_Router-RSC-000000?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org/docs/app)
-
 
 </div>
 
@@ -41,7 +40,7 @@ npm run dev          # http://localhost:3000
 ## 🧪 Test
 
 ```bash
-npm test             # Vitest — unit + integration (28 tests)
+npm test             # Vitest — unit + integration (46 tests)
 npm run test:e2e     # Playwright happy path (starts dev server on :3100)
 npm run validate     # lint + typecheck + test + build (same as CI)
 ```
@@ -61,12 +60,14 @@ Any Node host that can run `npm ci && npm run build && npm start` works. On Verc
 
 ## ✨ What it does
 
-| Feature                                                                                   |
-| ----------------------------------------------------------------------------------------- |
-| 📊 Transaction table with status filter, search, and sort                                 |
-| 📄 Per-row invoice download (mock PDF, ~2s latency)                                       |
-| 🔄 Bulk retry for failed rows with per-row spinners and aggregate toasts                  |
-| 🧱 App Router boundaries (`loading`, `error`, `not-found`), Suspense skeleton, basic a11y |
+| Feature                                                                                    |
+| ------------------------------------------------------------------------------------------ |
+| 📊 Transaction table with status filter, search, and sort                                  |
+| 📄 Per-row invoice download (mock PDF, ~2s latency)                                        |
+| 🔄 Bulk retry for failed rows with per-row spinners and aggregate toasts                   |
+| 🛡 Structured API errors (`ApiError`, Zod wire validation) with safe user messages         |
+| 🔁 Load/retry recovery UI — inline error card, toasts, `router.refresh()`                  |
+| 🧱 App Router boundaries (`loading`, `error`, `global-error`, `not-found`), Suspense, a11y |
 
 ## 📚 Further reading
 
