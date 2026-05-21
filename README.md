@@ -9,7 +9,7 @@
 
 ### Next.js + TypeScript take-home for Cleeng: review payment history, download invoices, and retry failed charges in bulk.
 
-[**Live demo →**](https://newpublicrepo-ffa1fp4t9-tomushka-projects.vercel.app/)
+### [**Live demo →**](https://newpublicrepo-ffa1fp4t9-tomushka-projects.vercel.app/)
 
 <br />
 
@@ -28,7 +28,6 @@
 [![Vitest](https://img.shields.io/badge/Vitest-46_tests-6E9F18?style=flat&logo=vitest&logoColor=white)](./src)
 [![Playwright](https://img.shields.io/badge/Playwright-E2E-2EAD33?style=flat&logo=playwright&logoColor=white)](./e2e)
 [![MSW](https://img.shields.io/badge/MSW-mocked_API-FF6C37?style=flat)](./src/test/msw)
-<br />
 <br />
 
 </div>
