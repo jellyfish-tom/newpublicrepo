@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #00d27a;
+  --color-brand-soft: #c6f7df;
+
+  --color-fg: var(--color-slate-900);
+  --color-fg-muted: var(--color-slate-600);
+  --color-fg-subtle: var(--color-slate-500);
+  --color-fg-success: var(--color-emerald-700);
+  --color-fg-danger: var(--color-rose-600);
+
+  --color-surface: var(--color-white);
+  --color-border-subtle: var(--color-slate-200);
+  --color-border-elevated: var(--color-slate-200);
+
+  --color-ring: var(--color-emerald-400);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-fg: var(--color-slate-100);
+      --color-fg-muted: var(--color-slate-400);
+      --color-fg-subtle: var(--color-slate-400);
+      --color-fg-success: var(--color-emerald-300);
+      --color-fg-danger: var(--color-rose-400);
+      --color-surface: var(--color-slate-900);
+      --color-border-subtle: var(--color-slate-800);
+      --color-border-elevated: var(--color-slate-700);
+    }
+  }
+
+  .dark {
+    --color-fg: var(--color-slate-100);
+    --color-fg-muted: var(--color-slate-400);
+    --color-fg-subtle: var(--color-slate-400);
+    --color-fg-success: var(--color-emerald-300);
+    --color-fg-danger: var(--color-rose-400);
+    --color-surface: var(--color-slate-900);
+    --color-border-subtle: var(--color-slate-800);
+    --color-border-elevated: var(--color-slate-700);
+  }
+}
+
+@utility text-eyebrow {
+  @apply text-xs font-medium uppercase tracking-wider text-fg-subtle;
+}
+
+@utility text-title {
+  @apply text-3xl font-semibold tracking-tight text-fg sm:text-4xl;
+}
+
+@utility text-body {
+  @apply text-sm text-fg-muted;
+}
+
+@utility text-muted {
+  @apply text-xs text-fg-subtle;
+}
+
+@utility text-mono-id {
+  @apply font-mono text-sm font-semibold text-fg;
+}
+
+@utility focus-ring-brand {
+  @apply focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-300/60;
+}
+
+@utility focus-ring {
+  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950;
+}
+
+body {
+  font-family:
+    var(--font-sans),
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(
+      circle at top left,
+      color-mix(in oklab, var(--color-brand) 12%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(circle at top right, rgba(125, 211, 252, 0.1), transparent 55%),
+    linear-gradient(180deg, #f5fbf7 0%, #f8fafc 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size:
+    100% 100vh,
+    100% 100vh,
+    100% 100vh;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #020617;
+    background-image:
+      radial-gradient(
+        circle at top left,
+        color-mix(in oklab, var(--color-brand) 18%, transparent),
+        transparent 55%
+      ),
+      radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 55%),
+      linear-gradient(180deg, #0b1220 0%, #020617 100%);
+  }
+}
+
+.dark body {
+  background-color: #020617;
+  background-image:
+    radial-gradient(
+      circle at top left,
+      color-mix(in oklab, var(--color-brand) 18%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 55%),
+    linear-gradient(180deg, #0b1220 0%, #020617 100%);
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.001ms;
+  }
+}
