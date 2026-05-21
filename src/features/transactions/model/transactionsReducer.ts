@@ -134,5 +134,11 @@ export function transactionsReducer(
 
       return { ...state, displayCurrency: action.currency };
     }
+
+    default: {
+      action satisfies never;
+
+      return state;
+    }
   }
 }

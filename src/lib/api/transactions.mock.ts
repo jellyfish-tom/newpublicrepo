@@ -1,19 +1,14 @@
-import { z } from "zod";
 import type { Transaction } from "@/features/transactions/model/types";
-import type { RetryResult } from "./transactions.contract";
+import type { RetryResult, TransactionsApi } from "./transactions.contract";
+import {
+  parseRetryResult,
+  parseTransactionId,
+  parseTransactionsList,
+  transactionsListSchema,
+} from "./transactions.schema";
 import { SEED_TRANSACTIONS } from "./transactions.seed";
 
-const transactionSchema = z.object({
-  id: z.string(),
-  amount: z.number().int().nonnegative(),
-  currency: z.enum(["USD", "EUR", "GBP"]),
-  createdAt: z.string().datetime(),
-  description: z.string(),
-  paymentMethod: z.string(),
-  status: z.enum(["success", "failed", "pending"]),
-}) satisfies z.ZodType<Transaction>;
-
-const seedSchema = z.array(transactionSchema);
+const seedSchema = transactionsListSchema;
 
 const VALIDATED_SEED: ReadonlyArray<Transaction> = seedSchema.parse(SEED_TRANSACTIONS);
 
@@ -50,12 +45,14 @@ function delay(ms: number): Promise<void> {
 export async function listTransactions(): Promise<Transaction[]> {
   await delay(LIST_LATENCY_MS);
 
-  return VALIDATED_SEED.map((transaction) => ({ ...transaction }));
+  return parseTransactionsList(VALIDATED_SEED.map((transaction) => ({ ...transaction })));
 }
 
 export async function generateInvoice(id: string): Promise<Blob> {
+  const transactionId = parseTransactionId(id);
+
   await delay(INVOICE_LATENCY_MS);
-  const payload = buildInvoiceText(id);
+  const payload = buildInvoiceText(transactionId);
 
   return new Blob([payload], { type: "application/pdf" });
 }
@@ -64,13 +61,14 @@ export async function retryPayment(
   id: string,
   random: RandomSource = defaultRandom,
 ): Promise<RetryResult> {
+  const transactionId = parseTransactionId(id);
   const latency = RETRY_MIN_LATENCY_MS + random.next() * RETRY_LATENCY_RANGE_MS;
 
   await delay(latency);
   const status: RetryResult["status"] =
     random.next() < RETRY_FAILURE_RATE ? "failed" : "success";
 
-  return { id, status };
+  return parseRetryResult({ id: transactionId, status });
 }
 
 function buildInvoiceText(id: string): string {
@@ -85,3 +83,9 @@ function buildInvoiceText(id: string): string {
     "%%EOF",
   ].join("\n");
 }
+
+export const transactionsMockApi = {
+  listTransactions,
+  generateInvoice,
+  retryPayment,
+} satisfies TransactionsApi;

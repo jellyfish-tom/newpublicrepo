@@ -22,6 +22,20 @@ vi.mock("sonner", () => ({
 
 import { DownloadInvoiceButton } from "./DownloadInvoiceButton";
 
+function isDownloadBlob(value: unknown): value is Blob {
+  const isObject = typeof value === "object";
+  const isNotNull = value !== null;
+  const hasBlobShape =
+    isObject &&
+    isNotNull &&
+    "type" in value &&
+    "size" in value &&
+    typeof value.type === "string" &&
+    typeof value.size === "number";
+
+  return hasBlobShape;
+}
+
 describe("DownloadInvoiceButton", () => {
   beforeEach(() => {
     triggerDownloadMock.mockReset();
@@ -44,10 +58,13 @@ describe("DownloadInvoiceButton", () => {
     });
 
     const [blob, filename] = triggerDownloadMock.mock.calls[0] ?? [];
-    const blobLike = blob as { type: string; size: number };
 
-    expect(blobLike.type).toBe("application/pdf");
-    expect(blobLike.size).toBeGreaterThan(0);
+    if (!isDownloadBlob(blob)) {
+      throw new Error("Expected download payload to include a Blob");
+    }
+
+    expect(blob.type).toBe("application/pdf");
+    expect(blob.size).toBeGreaterThan(0);
     expect(filename).toBe("invoice-TX-1.pdf");
     expect(toastSuccessMock).toHaveBeenCalledTimes(1);
     expect(

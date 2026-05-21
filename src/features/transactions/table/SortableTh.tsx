@@ -11,11 +11,21 @@ interface SortableThProps {
 }
 
 export function SortableTh({ column, sort, onToggleSort }: SortableThProps) {
-  const isSortable = column.sortable;
-  const sortKey = isSortable ? (column.key as SortKey) : null;
-  const hasSortKey = sortKey !== null;
+  if (!column.sortable) {
+    return (
+      <th
+        scope="col"
+        aria-label={column.ariaLabel}
+        className={cn("px-5 py-4", column.className)}
+      >
+        {column.label}
+      </th>
+    );
+  }
+
+  const sortKey = column.key;
   const isCurrentSortKey = sort.key === sortKey;
-  const isActive = hasSortKey && isCurrentSortKey;
+  const isActive = isCurrentSortKey;
   const ariaSort = isActive
     ? sort.direction === "asc"
       ? "ascending"
@@ -28,32 +38,26 @@ export function SortableTh({ column, sort, onToggleSort }: SortableThProps) {
     : `Sort by ${column.label} ${nextSortAction}`;
 
   const handleClick = () => {
-    if (sortKey) {
-      onToggleSort(sortKey);
-    }
+    onToggleSort(sortKey);
   };
 
   return (
     <th
       scope="col"
-      aria-sort={isSortable ? ariaSort : undefined}
+      aria-sort={ariaSort}
       aria-label={column.ariaLabel}
       className={cn("px-5 py-4", column.className)}
     >
-      {isSortable ? (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleClick}
-          aria-label={sortButtonLabel}
-          className="h-auto gap-1 rounded-none px-0 py-0 uppercase tracking-wider hover:bg-transparent hover:text-slate-900 focus-visible:text-slate-900 focus-visible:underline focus-visible:underline-offset-4 focus-visible:ring-0 focus-visible:ring-offset-0 dark:hover:bg-transparent dark:hover:text-white dark:focus-visible:text-white"
-        >
-          {column.label}
-          <SortIndicator active={isActive} direction={sort.direction} />
-        </Button>
-      ) : (
-        column.label
-      )}
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={handleClick}
+        aria-label={sortButtonLabel}
+        className="h-auto gap-1 rounded-none px-0 py-0 uppercase tracking-wider hover:bg-transparent hover:text-slate-900 focus-visible:text-slate-900 focus-visible:underline focus-visible:underline-offset-4 focus-visible:ring-0 focus-visible:ring-offset-0 dark:hover:bg-transparent dark:hover:text-white dark:focus-visible:text-white"
+      >
+        {column.label}
+        <SortIndicator active={isActive} direction={sort.direction} />
+      </Button>
     </th>
   );
 }

@@ -4,7 +4,7 @@ import { useCallback, useId, useMemo, type ChangeEvent } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { Select } from "@/components/ui/Select";
 import { cn } from "@/lib/cn";
-import { STATUS_OPTIONS } from "../model/constants";
+import { STATUS_OPTIONS, isFilterStatus } from "../model/constants";
 import type { TransactionStatus } from "../model/types";
 
 interface FilterBarProps {
@@ -36,7 +36,13 @@ export function FilterBar({
 
   const handleStatusChange = useCallback(
     (event: ChangeEvent<HTMLSelectElement>) => {
-      onStatusChange(event.target.value as TransactionStatus | "all");
+      const { value } = event.target;
+
+      if (!isFilterStatus(value)) {
+        return;
+      }
+
+      onStatusChange(value);
     },
     [onStatusChange],
   );

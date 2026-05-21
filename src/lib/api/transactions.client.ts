@@ -1,6 +1,12 @@
 import type { Transaction } from "@/features/transactions/model/types";
-import type { RetryResult } from "./transactions.contract";
+import type { RetryResult, TransactionsApi } from "./transactions.contract";
 import { transactionsApiRoutes } from "./transactions.routes";
+import {
+  parseInvoiceBlob,
+  parseRetryResult,
+  parseTransactionId,
+  parseTransactionsList,
+} from "./transactions.schema";
 
 function apiUrl(path: string): string {
   if (typeof window !== "undefined") {
@@ -10,6 +16,14 @@ function apiUrl(path: string): string {
   return path;
 }
 
+async function readJsonResponse(response: Response): Promise<unknown> {
+  try {
+    return await response.json();
+  } catch {
+    throw new Error(`Failed to parse JSON response: ${response.status}`);
+  }
+}
+
 export async function listTransactions(): Promise<Transaction[]> {
   const response = await fetch(apiUrl(transactionsApiRoutes.list));
 
@@ -17,21 +31,23 @@ export async function listTransactions(): Promise<Transaction[]> {
     throw new Error(`Failed to load transactions: ${response.status}`);
   }
 
-  return response.json();
+  return parseTransactionsList(await readJsonResponse(response));
 }
 
 export async function generateInvoice(id: string): Promise<Blob> {
-  const response = await fetch(apiUrl(transactionsApiRoutes.invoice(id)));
+  const transactionId = parseTransactionId(id);
+  const response = await fetch(apiUrl(transactionsApiRoutes.invoice(transactionId)));
 
   if (!response.ok) {
     throw new Error(`Failed to generate invoice: ${response.status}`);
   }
 
-  return response.blob();
+  return parseInvoiceBlob(await response.blob());
 }
 
 export async function retryPayment(id: string): Promise<RetryResult> {
-  const response = await fetch(apiUrl(transactionsApiRoutes.retry(id)), {
+  const transactionId = parseTransactionId(id);
+  const response = await fetch(apiUrl(transactionsApiRoutes.retry(transactionId)), {
     method: "POST",
   });
 
@@ -39,5 +55,11 @@ export async function retryPayment(id: string): Promise<RetryResult> {
     throw new Error(`Failed to retry payment: ${response.status}`);
   }
 
-  return response.json();
+  return parseRetryResult(await readJsonResponse(response));
 }
+
+export const transactionsHttpApi = {
+  listTransactions,
+  generateInvoice,
+  retryPayment,
+} satisfies TransactionsApi;

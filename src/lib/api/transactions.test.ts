@@ -1,10 +1,23 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import type { TransactionsApi } from "./transactions.contract";
+import { transactionsHttpApi } from "./transactions.client";
 import {
   createSeededRandom,
   generateInvoice,
   listTransactions,
   retryPayment,
+  transactionsMockApi,
 } from "./transactions.mock";
+
+describe("transactions api contract", () => {
+  it("mock and http clients satisfy TransactionsApi", () => {
+    const mockApi: TransactionsApi = transactionsMockApi;
+    const httpApi: TransactionsApi = transactionsHttpApi;
+
+    expect(mockApi.listTransactions).toBeTypeOf("function");
+    expect(httpApi.retryPayment).toBeTypeOf("function");
+  });
+});
 
 describe("transactions mock", () => {
   beforeEach(() => {

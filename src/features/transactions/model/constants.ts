@@ -1,15 +1,27 @@
 import type { SortKey, TransactionStatus } from "./types";
 
-export interface ColumnConfig {
-  key: SortKey | "id" | "description" | "method" | "actions";
+export type FilterStatus = TransactionStatus | "all";
+
+interface SortableColumnConfig {
+  key: SortKey;
   label: string;
-  sortable: boolean;
+  sortable: true;
   className?: string;
   ariaLabel?: string;
 }
 
+interface StaticColumnConfig {
+  key: "id" | "description" | "actions";
+  label: string;
+  sortable: false;
+  className?: string;
+  ariaLabel?: string;
+}
+
+export type ColumnConfig = SortableColumnConfig | StaticColumnConfig;
+
 export const STATUS_OPTIONS: ReadonlyArray<{
-  value: TransactionStatus | "all";
+  value: FilterStatus;
   label: string;
 }> = [
   { value: "all", label: "Show all transactions" },
@@ -17,6 +29,10 @@ export const STATUS_OPTIONS: ReadonlyArray<{
   { value: "failed", label: "Show failed" },
   { value: "pending", label: "Show pending" },
 ];
+
+export function isFilterStatus(value: string): value is FilterStatus {
+  return STATUS_OPTIONS.some((option) => option.value === value);
+}
 
 export const COLUMNS: ReadonlyArray<ColumnConfig> = [
   { key: "id", label: "Transaction ID", sortable: false, className: "w-44" },
