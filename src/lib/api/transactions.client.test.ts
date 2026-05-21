@@ -1,5 +1,6 @@
 import { http, HttpResponse } from "msw";
 import { describe, expect, it } from "vitest";
+import { API_ERROR_CODES, isApiError } from "./api-error";
 import { listTransactions, retryPayment } from "./transactions.client";
 import { transactionsApiMswPatterns } from "./transactions.routes";
 import { mswServer } from "@/test/msw/server";
@@ -42,7 +43,33 @@ describe("transactions client", () => {
       ),
     );
 
-    await expect(listTransactions()).rejects.toThrow();
+    await expect(listTransactions()).rejects.toSatisfy((error: unknown) => {
+      const isValidationError =
+        isApiError(error) && error.code === API_ERROR_CODES.VALIDATION;
+
+      return isValidationError;
+    });
+  });
+
+  it("maps structured API errors from failed responses", async () => {
+    mswServer.use(
+      http.get(transactionsApiMswPatterns.list, () =>
+        HttpResponse.json(
+          { code: API_ERROR_CODES.UPSTREAM, message: "Service unavailable." },
+          { status: 503 },
+        ),
+      ),
+    );
+
+    await expect(listTransactions()).rejects.toSatisfy((error: unknown) => {
+      const isStructuredUpstreamError =
+        isApiError(error) &&
+        error.code === API_ERROR_CODES.UPSTREAM &&
+        error.message === "Service unavailable." &&
+        error.status === 503;
+
+      return isStructuredUpstreamError;
+    });
   });
 
   it("rejects malformed retry responses", async () => {
@@ -52,6 +79,11 @@ describe("transactions client", () => {
       ),
     );
 
-    await expect(retryPayment("TX-1")).rejects.toThrow();
+    await expect(retryPayment("TX-1")).rejects.toSatisfy((error: unknown) => {
+      const isValidationError =
+        isApiError(error) && error.code === API_ERROR_CODES.VALIDATION;
+
+      return isValidationError;
+    });
   });
 });

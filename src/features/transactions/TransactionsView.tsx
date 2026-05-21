@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
+import { toUserMessage } from "@/lib/api/api-error";
 import { RetryToolbar } from "./actions/RetryToolbar";
 import { FilterBar } from "./filters/FilterBar";
 import type { Transaction } from "./model/types";
@@ -58,6 +59,8 @@ export function TransactionsView({ initialTransactions }: TransactionsViewProps)
     setIsRetrying(true);
     try {
       await manager.retrySelected(ids);
+    } catch (error) {
+      toast.error("Retry failed", { description: toUserMessage(error) });
     } finally {
       setIsRetrying(false);
     }

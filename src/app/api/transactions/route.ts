@@ -1,9 +1,11 @@
-import { NextResponse } from "next/server";
 import { listTransactions } from "@/lib/api/transactions.mock";
+import { runRoute } from "@/lib/api/api-error";
 import { parseTransactionsList } from "@/lib/api/transactions.schema";
 
 export async function GET() {
-  const transactions = parseTransactionsList(await listTransactions());
+  return runRoute(async () => {
+    const transactions = parseTransactionsList(await listTransactions());
 
-  return NextResponse.json(transactions);
+    return Response.json(transactions);
+  });
 }

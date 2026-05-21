@@ -4,13 +4,11 @@ import {
   parseRetryResult,
   parseTransactionId,
   parseTransactionsList,
-  transactionsListSchema,
 } from "./transactions.schema";
 import { SEED_TRANSACTIONS } from "./transactions.seed";
 
-const seedSchema = transactionsListSchema;
-
-const VALIDATED_SEED: ReadonlyArray<Transaction> = seedSchema.parse(SEED_TRANSACTIONS);
+const VALIDATED_SEED: ReadonlyArray<Transaction> =
+  parseTransactionsList(SEED_TRANSACTIONS);
 
 const LIST_LATENCY_MS = 300;
 const INVOICE_LATENCY_MS = 2000;

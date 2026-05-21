@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { API_ERROR_CODES, isApiError } from "./api-error";
 import {
   parseInvoiceBlob,
   parseRetryResult,
@@ -22,7 +23,16 @@ describe("transactions schema", () => {
   });
 
   it("rejects an empty transaction id", () => {
-    expect(() => parseTransactionId("   ")).toThrow();
+    try {
+      parseTransactionId("   ");
+      expect.fail("Expected parseTransactionId to throw");
+    } catch (error) {
+      expect(isApiError(error)).toBe(true);
+      if (isApiError(error)) {
+        expect(error.code).toBe(API_ERROR_CODES.INVALID_INPUT);
+        expect(error.status).toBe(400);
+      }
+    }
   });
 
   it("parses a valid transactions list", () => {
@@ -30,8 +40,22 @@ describe("transactions schema", () => {
   });
 
   it("rejects malformed transaction payloads", () => {
-    expect(() => parseTransactionsList([{ ...validTransaction, amount: -1 }])).toThrow();
-    expect(() => parseTransactionsList({ items: [validTransaction] })).toThrow();
+    try {
+      parseTransactionsList([{ ...validTransaction, amount: -1 }]);
+      expect.fail("Expected parseTransactionsList to throw");
+    } catch (error) {
+      expect(isApiError(error)).toBe(true);
+      if (isApiError(error)) {
+        expect(error.code).toBe(API_ERROR_CODES.VALIDATION);
+      }
+    }
+
+    try {
+      parseTransactionsList({ items: [validTransaction] });
+      expect.fail("Expected parseTransactionsList to throw");
+    } catch (error) {
+      expect(isApiError(error)).toBe(true);
+    }
   });
 
   it("parses a valid retry result", () => {
@@ -42,7 +66,15 @@ describe("transactions schema", () => {
   });
 
   it("rejects retry results with pending status", () => {
-    expect(() => parseRetryResult({ id: "TX-1", status: "pending" })).toThrow();
+    try {
+      parseRetryResult({ id: "TX-1", status: "pending" });
+      expect.fail("Expected parseRetryResult to throw");
+    } catch (error) {
+      expect(isApiError(error)).toBe(true);
+      if (isApiError(error)) {
+        expect(error.code).toBe(API_ERROR_CODES.VALIDATION);
+      }
+    }
   });
 
   it("accepts only pdf blobs with content", () => {

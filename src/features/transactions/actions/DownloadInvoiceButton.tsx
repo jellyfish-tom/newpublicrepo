@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { generateInvoice } from "@/lib/api/transactions";
+import { toUserMessage } from "@/lib/api/api-error";
 import { triggerDownload } from "@/lib/browser/download";
 
 interface DownloadInvoiceButtonProps {
@@ -30,9 +31,7 @@ export function DownloadInvoiceButton({ transactionId }: DownloadInvoiceButtonPr
         description: `${transactionId} is in your downloads folder.`,
       });
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unknown error";
-
-      toast.error("Could not generate invoice", { description: message });
+      toast.error("Could not generate invoice", { description: toUserMessage(error) });
     } finally {
       setDownloadState("idle");
     }

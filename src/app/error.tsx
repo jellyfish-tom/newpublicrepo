@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { Button } from "@/components/ui/Button";
+import { logAppError } from "@/lib/api/api-error";
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
@@ -10,9 +11,7 @@ interface ErrorPageProps {
 
 export default function GlobalError({ error, reset }: ErrorPageProps) {
   useEffect(() => {
-    if (process.env.NODE_ENV !== "production") {
-      console.error(error);
-    }
+    logAppError("app-error", error);
   }, [error]);
 
   return (

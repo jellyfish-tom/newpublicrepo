@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { Transaction } from "@/features/transactions/model/types";
 import type { RetryResult } from "./transactions.contract";
+import { API_ERROR_CODES, ApiError } from "./api-error";
 
 export const transactionIdSchema = z.string().trim().min(1);
 
@@ -23,25 +24,58 @@ export const retryResultSchema = z.object({
 
 const PDF_MIME_TYPE = "application/pdf";
 
+function validationError(cause: z.ZodError): ApiError {
+  return new ApiError(
+    API_ERROR_CODES.VALIDATION,
+    "The server returned unexpected data.",
+    422,
+    { cause },
+  );
+}
+
 export function parseTransactionId(value: string): string {
-  return transactionIdSchema.parse(value);
+  const parsed = transactionIdSchema.safeParse(value);
+
+  if (!parsed.success) {
+    throw new ApiError(API_ERROR_CODES.INVALID_INPUT, "Invalid transaction id.", 400, {
+      cause: parsed.error,
+    });
+  }
+
+  return parsed.data;
 }
 
 export function parseTransactionsList(value: unknown): Transaction[] {
-  return transactionsListSchema.parse(value);
+  const parsed = transactionsListSchema.safeParse(value);
+
+  if (!parsed.success) {
+    throw validationError(parsed.error);
+  }
+
+  return parsed.data;
 }
 
 export function parseRetryResult(value: unknown): RetryResult {
-  return retryResultSchema.parse(value);
+  const parsed = retryResultSchema.safeParse(value);
+
+  if (!parsed.success) {
+    throw validationError(parsed.error);
+  }
+
+  return parsed.data;
 }
 
 export function parseInvoiceBlob(blob: Blob): Blob {
   if (blob.type !== PDF_MIME_TYPE) {
-    throw new Error(`Expected ${PDF_MIME_TYPE}, received ${blob.type || "unknown"}`);
+    throw new ApiError(
+      API_ERROR_CODES.VALIDATION,
+      "Invalid invoice format received.",
+      422,
+    );
   }
 
   if (blob.size === 0) {
-    throw new Error("Invoice blob is empty");
+    throw new ApiError(API_ERROR_CODES.VALIDATION, "Invoice file is empty.", 422);
   }
 
   return blob;
