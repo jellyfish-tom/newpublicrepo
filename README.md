@@ -9,7 +9,6 @@ Next.js + TypeScript take-home for Cleeng: review payment history, download invo
 
 <br />
 
-[![CI](https://github.com/jellyfish-tom/newpublicrepo/actions/workflows/ci.yml/badge.svg?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/jellyfish-tom/newpublicrepo/actions/workflows/ci.yml)
 [![Node](https://img.shields.io/badge/node-%3E%3D20.18-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](./.nvmrc)
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
@@ -62,19 +61,19 @@ Any Node host that can run `npm ci && npm run build && npm start` works. On Verc
 
 ## ✨ What it does
 
-|     |                                                                                        |
-| --- | -------------------------------------------------------------------------------------- |
-| 📊  | Transaction table with status filter, search, and sort                                 |
-| 📄  | Per-row invoice download (mock PDF, ~2s latency)                                       |
-| 🔄  | Bulk retry for failed rows with per-row spinners and aggregate toasts                  |
-| 🧱  | App Router boundaries (`loading`, `error`, `not-found`), Suspense skeleton, basic a11y |
+| Feature                                                                                   |
+| ----------------------------------------------------------------------------------------- |
+| 📊 Transaction table with status filter, search, and sort                                 |
+| 📄 Per-row invoice download (mock PDF, ~2s latency)                                       |
+| 🔄 Bulk retry for failed rows with per-row spinners and aggregate toasts                  |
+| 🧱 App Router boundaries (`loading`, `error`, `not-found`), Suspense skeleton, basic a11y |
 
 ## 📚 Further reading
 
 Documentation in [`docs/`](./docs/):
 
-|     | Doc                                       | Contents                                                                           |
-| --- | ----------------------------------------- | ---------------------------------------------------------------------------------- |
-| 📝  | [NOTES.md](./docs/NOTES.md)               | Architecture decisions, trade-offs, styling model, tooling notes _(for reviewers)_ |
-| 📐  | [AGENTS.md](./docs/AGENTS.md)             | Project coding conventions                                                         |
-| 🤝  | [CONTRIBUTING.md](./docs/CONTRIBUTING.md) | Dev workflow, hooks, testing policy                                                |
+| Doc                                          | Contents                                                                           |
+| -------------------------------------------- | ---------------------------------------------------------------------------------- |
+| 📝 [NOTES.md](./docs/NOTES.md)               | Architecture decisions, trade-offs, styling model, tooling notes _(for reviewers)_ |
+| 📐 [AGENTS.md](./docs/AGENTS.md)             | Project coding conventions                                                         |
+| 🤝 [CONTRIBUTING.md](./docs/CONTRIBUTING.md) | Dev workflow, hooks, testing policy                                                |
