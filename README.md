@@ -2,14 +2,18 @@
 <br />
 
 # Transactions Management Dashboard
+
 <img width="1512" height="861" alt="image" src="https://github.com/user-attachments/assets/9b7466af-e0dd-4882-9179-8e089966f378" />
 
 <br />
 
 ### Next.js + TypeScript take-home for Cleeng: review payment history, download invoices, and retry failed charges in bulk.
 
+[**Live demo →**](https://newpublicrepo-ffa1fp4t9-tomushka-projects.vercel.app/)
+
 <br />
 
+[![Live Demo](https://img.shields.io/badge/demo-live-000000?style=flat&logo=vercel&logoColor=white)](https://newpublicrepo-ffa1fp4t9-tomushka-projects.vercel.app/)
 [![Version](https://img.shields.io/github/package-json/v/jellyfish-tom/newpublicrepo?style=flat&logo=npm&logoColor=white&label=version)](./package.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20.18-339933?style=flat&logo=nodedotjs&logoColor=white)](./.nvmrc)
 <br />
@@ -26,6 +30,7 @@
 [![MSW](https://img.shields.io/badge/MSW-mocked_API-FF6C37?style=flat)](./src/test/msw)
 <br />
 <br />
+
 </div>
 <br />
 
@@ -59,7 +64,7 @@ npm run build
 npm start            # serves the production build (default :3000)
 ```
 
-Any Node host that can run `npm ci && npm run build && npm start` works. On Vercel, connect the repo — Next.js needs no extra config for this app.
+Any Node host that can run `npm ci && npm run build && npm start` works. Deployed on Vercel: [live demo](https://newpublicrepo-ffa1fp4t9-tomushka-projects.vercel.app/).
 
 ## ✨ What it does
 
