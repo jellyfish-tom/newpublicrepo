@@ -3,6 +3,9 @@
 # Transactions Management Dashboard
 
 Next.js + TypeScript take-home for Cleeng: review payment history, download invoices, and retry failed charges in bulk.
+<br />
+
+<img width="1512" height="861" alt="image" src="https://github.com/user-attachments/assets/9b7466af-e0dd-4882-9179-8e089966f378" />
 
 <br />
 
@@ -19,6 +22,7 @@ Next.js + TypeScript take-home for Cleeng: review payment history, download invo
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![MSW](https://img.shields.io/badge/MSW-mocked_API-FF6C37?style=flat-square)](./src/test/msw)
 [![App Router](https://img.shields.io/badge/App_Router-RSC-000000?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org/docs/app)
+
 
 </div>
 
